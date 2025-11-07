@@ -180,3 +180,6 @@ These patterns demonstrate how disciplined object creation yields **modular, reu
 ---
 
 ✅ **Pure TypeScript implementation • No frameworks • Object-Oriented Design • Ready for ELSE submission**
+
+<img width="1309" height="429" alt="image" src="https://github.com/user-attachments/assets/1aad430a-5f18-426c-a36b-3b6579c6633d" />
+
