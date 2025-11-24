@@ -1,182 +1,154 @@
-# 🌷 Bloomify — Creational Design Patterns (TypeScript)
+# Bloomify – Creational Design Patterns (TMPS Lab)
 
-**Technical University of Moldova**  
-**Faculty of Computers, Informatics and Microelectronics**  
-**Department of Software Engineering and Automation**  
+## Author:Popescu Sabina
+## Supervisor: Guzun Grigore
+## Course: TMPS — Software Design Techniques
+## Lab Nr.: 1 – Creational Design Patterns
 
-**Course:** Software Engineering Laboratory  
-**Topic:** *Creational Design Patterns*  
-**Student:** *[Your Name]*  
-**Professor:** *Drumea Vasile*  
-**Date:** *2025-10-31*  
+# 1. Introduction
 
----
+This laboratory work focuses on understanding and applying Creational Design Patterns in a real, object-oriented system.
+The chosen project — Bloomify — simulates a small bouquet-creation platform where users can configure flowers, sizes, wrapping, add-ons, and user preferences.
 
-## 🎯 Objectives
-1. Study and understand the **Creational Design Patterns** and their role in object-oriented software design.  
-2. Choose a **domain**, define its main **classes / models / entities**, and determine the appropriate **instantiation mechanisms**.  
-3. Implement **at least three** creational design patterns inside a working sample project.
+The goal is to analyze the creation mechanisms required by the system and implement at least three creational design patterns inside a clean, well-structured project.
 
----
+# 2. Objectives
 
-## 🧠 Theoretical Background
-In software engineering, **creational design patterns** provide general, reusable solutions for **object creation** problems.  
-They hide, optimize, or control instantiation to improve flexibility and reuse.
+- Understand the fundamental creational design patterns
+- Choose a domain and define the main models/entities
+- Implement at least 3 creational patterns
+- Organize the code into proper modules (client, domain, factory, models)
+- Provide documentation in README.md
+- Push the project to a Git repository
 
-**Typical creational patterns**
-| Pattern | Purpose |
-|----------|----------|
-| Singleton | ensure only one global instance |
-| Builder | construct complex objects step-by-step |
-| Prototype | clone existing instances efficiently |
-| Factory Method | delegate instantiation to subclasses |
-| Abstract Factory | produce families of related objects |
-| Object Pool | manage reusable object resources |
+# 3. Theory — Creational Design Patterns
 
----
+Creational patterns deal with how objects are created, separating object construction from business logic.
+They improve extensibility, clarity, maintainability, and encapsulation of the instantiation process.
 
-## 🌺 Domain Description — *Bloomify Flower Boutique*
-Bloomify is an elegant flower-shop simulator inspired by **[sentiment.md](https://sentiment.md/ro)**.  
-Users can build personalized bouquets, clone ready-made templates, and choose different payment methods.
+## Patterns studied
 
----
+| Pattern | Summary |
+|--------|---------|
+| Singleton | Ensures only one instance exists worldwide. |
+| Builder | Builds complex objects step-by-step. |
+| Prototype | Creates objects by cloning existing ones. |
+| Factory Method | Delegates object creation to subclasses or methods. |
+| Abstract Factory | Creates families of related objects. |
+| Object Pool | Reuses expensive objects instead of creating new ones. |
 
-## 🧩 Implemented Creational Patterns
-| Pattern | File | Purpose |
-|----------|------|----------|
-| **Singleton** | `domain/Config.ts` | global configuration (currency / locale / delivery) |
-| **Builder** | `domain/BouquetBuilder.ts` | constructs bouquets from individual flowers, wrapping, ribbon, and message |
-| **Prototype** | `domain/BouquetPrototype.ts` | clones pre-defined bouquet templates (“Valentine Special”, “Spring Dream”) |
-| **Factory Method** | `factory/PaymentFactory.ts` | creates payment objects (`Card`, `Crypto`, `Bank`) without exposing concrete classes |
+# 4. Domain Description
 
----
+The domain chosen is Bouquet Configuration System (Bloomify).
 
-## 🏗️ Project Structure
+Users can:
+
+- Build bouquets
+- Choose flowers
+- Add decorations
+- Configure delivery
+- Change locale and currency
+
+## Main Entities
+
+| Entity | Responsibility |
+|--------|----------------|
+| Bouquet | Final product composed of flowers, wrapping, size, add-ons. |
+| Flower | Base class for flowers (Rose, Tulip, Lily...). |
+| Addon | Additional decorative elements. |
+| Config | Global preferences (currency, delivery type, locale). |
+| BouquetBuilder | Constructs bouquets step-by-step. |
+| FlowerFactory | Creates flower objects. |
+| PrototypeRegistry | Stores predefined bouquets and clones them. |
+
+# 5. Implemented Creational Patterns
+
+## 1. Singleton – Global Config
+
+Config stores global user preferences:
+
+- locale
+- currency
+- delivery type
+
+It ensures only one instance is used.
+
+## 2. Builder – Bouquet Construction
+
+The Builder pattern provides:
+
+- fluent API
+- cleaner construction
+- validation
+- immutability after creation
+
+## 3. Factory Method – Flower Creation
+
+Creates flower objects dynamically based on user choice.
+
+## 4. Optional: Prototype – Predefined Bouquets
+
+Allows cloning template bouquets.
+
+# 6. Project Structure
+
 ```
-creational-lab-bloomify/
-├─ README.md
-├─ package.json
-├─ tsconfig.json
-├─ public/
-│  ├─ index.html          # UI & DOM bindings
-│  ├─ styles.css          # sentiment.md–style design
-│  └─ js/                 # compiled JS output
-└─ src/
-   ├─ client/main.ts      # UI logic & integration
-   ├─ domain/
-   │  ├─ Config.ts
-   │  ├─ BouquetBuilder.ts
-   │  └─ BouquetPrototype.ts
-   ├─ factory/
-   │  ├─ Payment.ts
-   │  └─ PaymentFactory.ts
-   ├─ models/
-   │  ├─ Flower.ts
-   │  ├─ Bouquet.ts
-   │  └─ Customer.ts
-   └─ pool/
-      └─ ConnectionPool.ts (optional bonus Object Pool)
-```
+/client
+  index.ts
 
----
+/domain
+  /models
+     Bouquet.ts
+     Flower.ts
+     Addon.ts
 
-## ⚙️ Installation & Usage
+  /builder
+     BouquetBuilder.ts
 
-### 1) Install dependencies
-```bash
-npm install
-```
+  /factory
+     FlowerFactory.ts
 
-### 2) Build TypeScript → JavaScript
-```bash
-npm run build
-```
+  /singleton
+     Config.ts
 
-### 3) Preview locally (serves http://localhost:8080)
-```bash
-npm run preview
-```
-*(on macOS you can use `npm run preview:open` to auto-launch the browser)*
+  /prototype
+     BouquetPrototype.ts
 
-### 4) Manual view
-Open `public/index.html` after building.
+/public
+  index.html
 
-**package.json scripts (reference):**
-```json
-{
-  "scripts": {
-    "build": "tsc -p .",
-    "dev": "tsc -w",
-    "preview": "http-server public -p 8080 -c-1 --cors",
-    "preview:open": "http-server public -p 8080 -c-1 --cors & sleep 1 && open http://localhost:8080"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.3",
-    "ts-node": "^10.9.2",
-    "http-server": "^14.1.1"
-  }
-}
-```
-
-**tsconfig.json (reference):**
-```json
-{
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "node",
-    "strict": true,
-    "rootDir": "src",
-    "outDir": "public/js"
-  },
-  "include": ["src"]
-}
+styles.css
+README.md
 ```
 
----
+# 7. Implementation Details
 
-## 🧩 Pattern Demonstration Flow
-1. **Builder** → fill the form, click **“Build Bouquet”** → a new bouquet object is built via the Builder chain.  
-2. **Prototype** → click a template (Valentine / Spring / Pastel) → cloned bouquet appears.  
-3. **Singleton** → switch currency (EUR ↔ USD) → price labels update instantly via shared config.  
-4. **Factory Method** → choose a payment type and click **“Pay”** → respective strategy object executes.  
+- BouquetBuilder handles flowers, wrapping, add-ons, size, and final build().
+- Config (Singleton) loads/saves from localStorage and ensures global consistency.
+- Factory Method enables addition of new flower types without modifying UI code.
+- UI generates bouquets dynamically and validates user input.
 
-Console output & UI both confirm each pattern’s instantiation mechanism.
+# 8. Difficulties Encountered
 
----
+- TSConfig errors: isolatedModules, moduleResolution deprecated flag.
+- Circular imports during refactoring.
+- Missing ID bindings in UI forms.
+- Validation inside Builder.
+- Persistence logic for Singleton.
 
-## 🧪 Example Console/UI Output
-```
-Config loaded: { currency: 'EUR', locale: 'ro', delivery: 'courier' }
-🌷 Bouquet built: 15× Red Roses, Satin Pink wrapping, Silk Red ribbon
-💳 Payment: CARD **** **** **** 4242 charged 120.00 €
-✅ Singleton verified: same Config instance reused
-```
+# 9. Testing
 
----
+- Bouquet building tested with multiple combinations.
+- Config persistence verified via page refresh.
+- Factory tested with valid/invalid flower types.
+- Prototype verified for deep clone correctness.
 
-## 🧱 Technologies
-- **Language:** TypeScript (ES2022)  
-- **No frameworks / no external runtime libs**  
-- **Dev tools:** tsc, ts-node, http-server  
+# 10. Conclusions
 
----
+This laboratory demonstrates the correct use of multiple creational design patterns in an organized OO project.
 
-## 📘 Conclusions
-- The **Singleton** ensured consistent configuration across modules.  
-- The **Builder** simplified complex bouquet construction through fluent chaining.  
-- The **Prototype** enabled quick creation of preset bouquets with minimal overhead.  
-- The **Factory Method** decoupled payment instantiation from client logic, improving extensibility.  
+# 11. References
 
-These patterns demonstrate how disciplined object creation yields **modular, reusable, and maintainable** software.
-
----
-
-## 📚 References
-- *Design Patterns: Elements of Reusable Object-Oriented Software* — Gamma et al.  
-- TypeScript Docs — https://www.typescriptlang.org  
-- sentiment.md — UI inspiration  
-
----
-
-✅ **Pure TypeScript implementation • No frameworks • Object-Oriented Design • Ready for ELSE submission**
+- Gamma, Helm, Johnson, Vlissides – Design Patterns: Elements of Reusable Object-Oriented Software
+- TypeScript documentation
+- Course materials provided by Drumea Vasile

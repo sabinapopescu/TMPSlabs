@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bloomify • Design Patterns (Creational & Structural) - TypeScript</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-content">
+        <h1>🌸 Bloomify</h1>
+        <p class="hero-subtitle">Every bouquet tells a story.</p>
+        <div id="configBadge" class="badge"></div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Builder Pattern Section -->
+      <section id="builder" class="card">
+        <div class="card-header">
+          <h2>🏗️ Bouquet Builder</h2>
+          <span class="pattern-label">Builder Pattern</span>
+        </div>
+        
+        <form id="builderForm" class="grid">
+          <div class="form-group full">
+            <label for="name">Bouquet Name*</label>
+            <input 
+              id="name" 
+              type="text" 
+              placeholder="e.g., Romantic Evening"
+              required
+              minlength="3"
+              maxlength="50"
+            />
+            <span class="error-message" id="nameError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerKind">Flower Type*</label>
+            <select id="flowerKind" required>
+              <option value="">Select flower</option>
+              <option value="Rose">🌹 Rose</option>
+              <option value="Tulip">🌷 Tulip</option>
+              <option value="Lily">🌺 Lily</option>
+              <option value="Orchid">🌸 Orchid</option>
+              <option value="Sunflower">🌻 Sunflower</option>
+              <option value="Daisy">🌼 Daisy</option>
+            </select>
+            <span class="error-message" id="flowerKindError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerColor">Color*</label>
+            <select id="flowerColor" required>
+              <option value="">Select color</option>
+              <option value="Red">❤️ Red</option>
+              <option value="Pink">💗 Pink</option>
+              <option value="White">🤍 White</option>
+              <option value="Yellow">💛 Yellow</option>
+              <option value="Purple">💜 Purple</option>
+              <option value="Orange">🧡 Orange</option>
+            </select>
+            <span class="error-message" id="flowerColorError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerQty">Quantity*</label>
+            <input 
+              id="flowerQty" 
+              type="number" 
+              min="1" 
+              max="100" 
+              placeholder="1-100"
+              required
+            />
+            <span class="error-message" id="flowerQtyError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerPrice">Unit Price (€)*</label>
+            <input 
+              id="flowerPrice" 
+              type="number" 
+              step="0.1" 
+              min="0.1"
+              max="50"
+              placeholder="0.10 - 50.00"
+              required
+            />
+            <span class="error-message" id="flowerPriceError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="wrapKind">Wrapping Style*</label>
+            <select id="wrapKind" required>
+              <option value="paper">📄 Paper</option>
+              <option value="satin">✨ Satin</option>
+              <option value="transparent">💎 Transparent</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="wrapColor">Wrap Color*</label>
+            <input 
+              id="wrapColor" 
+              type="text" 
+              placeholder="e.g., Pink"
+              required
+              maxlength="20"
+            />
+            <span class="error-message" id="wrapColorError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="ribbonMat">Ribbon Material*</label>
+            <select id="ribbonMat" required>
+              <option value="silk">🎀 Silk</option>
+              <option value="satin">✨ Satin</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ribbonColor">Ribbon Color*</label>
+            <input 
+              id="ribbonColor" 
+              type="text" 
+              placeholder="e.g., Red"
+              required
+              maxlength="20"
+            />
+            <span class="error-message" id="ribbonColorError"></span>
+          </div>
+
+          <div class="form-group full">
+            <label for="cardMessage">Card Message</label>
+            <input 
+              id="cardMessage" 
+              type="text" 
+              placeholder="Your heartfelt message..."
+              maxlength="100"
+            />
+            <span class="hint">Optional - Max 100 characters</span>
+          </div>
+
+          <div class="full button-group">
+            <button id="addFlower" type="button" class="secondary">
+              ➕ Add Flower Line
+            </button>
+            <button id="clearFlowers" type="button" class="ghost">
+              🗑️ Clear All
+            </button>
+            <button id="buildBtn" type="button" class="primary">
+              🎨 Build Bouquet
+            </button>
+          </div>
+        </form>
+
+        <div id="itemsList" class="items-list"></div>
+        <div id="preview" class="preview"></div>
+      </section>
+
+      <!-- Prototype Pattern Section -->
+      <section id="templates" class="card">
+        <div class="card-header">
+          <h2>📋 Quick Templates</h2>
+          <span class="pattern-label">Prototype Pattern</span>
+        </div>
+        <p class="section-description">Clone pre-designed bouquets instantly</p>
+        
+        <div class="template-grid">
+          <button class="template-card" data-template="valentine">
+            <span class="template-icon">💝</span>
+            <span class="template-name">Valentine Special</span>
+            <span class="template-desc">15 Red Roses with Satin wrap</span>
+          </button>
+          
+          <button class="template-card" data-template="spring">
+            <span class="template-icon">🌿</span>
+            <span class="template-name">Spring Dream</span>
+            <span class="template-desc">Tulips & Lilies mix</span>
+          </button>
+          
+          <button class="template-card" data-template="pastel">
+            <span class="template-icon">🌸</span>
+            <span class="template-name">Pastel Joy</span>
+            <span class="template-desc">6 Pink Orchids</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Decorator Pattern Section -->
+      <section id="enhancements" class="card">
+        <div class="card-header">
+          <h2>✨ Enhancements</h2>
+          <span class="pattern-label">Decorator Pattern</span>
+        </div>
+        <p class="section-description">Add premium features to your bouquet</p>
+        
+        <div class="grid">
+          <div class="form-group">
+            <label for="enhanceGiftBox">🎁 Gift Box</label>
+            <select id="enhanceGiftBox">
+              <option value="none">No gift box</option>
+              <option value="standard">Standard (+€5.00)</option>
+              <option value="premium">Premium (+€10.00)</option>
+              <option value="luxury">Luxury (+€15.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="enhanceVase">🏺 Premium Vase</label>
+            <select id="enhanceVase">
+              <option value="none">No vase</option>
+              <option value="glass">Glass (+€12.00)</option>
+              <option value="ceramic">Ceramic (+€18.00)</option>
+              <option value="crystal">Crystal (+€25.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="enhanceCare">📋 Care Instructions</label>
+            <select id="enhanceCare">
+              <option value="none">No instructions</option>
+              <option value="basic">Basic (+€1.50)</option>
+              <option value="detailed">Detailed (+€3.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="enhanceDelivery">🚚 Express Delivery</label>
+            <select id="enhanceDelivery">
+              <option value="none">Standard delivery</option>
+              <option value="next-day">Next Day (+€7.00)</option>
+              <option value="same-day">Same Day (+€12.00)</option>
+              <option value="2-hour">2-Hour (+€20.00)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary" onclick="enhanceBouquet()" style="margin-top: 15px;">
+          Apply Enhancements
+        </button>
+
+        <div id="enhancementPreview" class="preview-area" style="margin-top: 20px;"></div>
+      </section>
+
+      <!-- Factory Method Pattern Section -->
+      <section id="checkout" class="card">
+        <div class="card-header">
+          <h2>💳 Checkout</h2>
+          <span class="pattern-label">Factory Method Pattern</span>
+        </div>
+        
+        <div class="payment-methods">
+          <label class="payment-option">
+            <input type="radio" name="pay" value="card" checked />
+            <span class="payment-label">
+              <span class="payment-icon">💳</span>
+              <span>Credit/Debit Card</span>
+            </span>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="crypto" />
+            <span class="payment-label">
+              <span class="payment-icon">₿</span>
+              <span>Cryptocurrency</span>
+            </span>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="bank" />
+            <span class="payment-label">
+              <span class="payment-icon">🏦</span>
+              <span>Bank Transfer</span>
+            </span>
+          </label>
+        </div>
+
+        <div id="payDetails" class="payment-details"></div>
+        
+        <button id="payBtn" class="primary full-width">
+          💰 Process Payment
+        </button>
+        
+        <div id="receipt" class="receipt"></div>
+      </section>
+
+      <!-- Adapter Pattern: Notifications -->
+      <section id="notifications" class="card">
+        <div class="card-header">
+          <h2>📬 Notification System</h2>
+          <span class="pattern-label">Adapter Pattern</span>
+        </div>
+
+        <div class="form-group">
+          <p style="margin-bottom: 20px; opacity: 0.8;">
+            Test the unified notification system that adapts three different services (Email, SMS, Push) to a common interface.
+          </p>
+        </div>
+
+        <div class="grid">
+          <div class="form-group">
+            <label for="notifyRecipient">Recipient (Email/Phone/ID)</label>
+            <input 
+              id="notifyRecipient" 
+              type="text" 
+              placeholder="customer@example.com"
+              value="customer@example.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="notifySubject">Subject</label>
+            <input 
+              id="notifySubject" 
+              type="text" 
+              placeholder="Order Confirmation"
+              value="Order Confirmation"
+            />
+          </div>
+
+          <div class="form-group full">
+            <label for="notifyMessage">Message</label>
+            <textarea 
+              id="notifyMessage" 
+              rows="3"
+              placeholder="Your order has been confirmed..."
+            >Your order #BLM-001234 has been confirmed and will be delivered soon. Thank you for choosing Bloomify!</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="notifyService">Notification Service</label>
+            <select id="notifyService">
+              <option value="email">📧 Email Service</option>
+              <option value="sms">📱 SMS Gateway</option>
+              <option value="push">🔔 Push Notification</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="notifyPriority">Priority</label>
+            <select id="notifyPriority">
+              <option value="low">Low</option>
+              <option value="normal" selected>Normal</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button id="sendNotificationBtn" class="btn-primary" style="flex: 1;">
+            📤 Send Notification
+          </button>
+          <button id="sendAllNotificationsBtn" class="btn-secondary" style="flex: 1;">
+            📢 Broadcast to All
+          </button>
+        </div>
+
+        <div id="notificationResult" style="margin-top: 20px;"></div>
+      </section>
+
+      <!-- Singleton Pattern Section -->
+      <section id="settings" class="card">
+        <div class="card-header">
+          <h2>⚙️ Global Settings</h2>
+          <span class="pattern-label">Singleton Pattern</span>
+        </div>
+        <p class="section-description">Configure global preferences (shared across all instances)</p>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <label class="setting-label">Currency</label>
+            <div class="button-group">
+              <button data-currency="EUR" class="setting-btn active">
+                💶 EUR
+              </button>
+              <button data-currency="USD" class="setting-btn">
+                💵 USD
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Language</label>
+            <div class="button-group">
+              <button data-locale="en" class="setting-btn active">
+                🇬🇧 English
+              </button>
+              <button data-locale="ro" class="setting-btn">
+                🇷🇴 Română
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Delivery Method</label>
+            <div class="button-group">
+              <button data-delivery="courier" class="setting-btn active">
+                🚚 Courier
+              </button>
+              <button data-delivery="pickup" class="setting-btn">
+                🏪 Pickup
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- ========================================================================
+         BEHAVIORAL PATTERNS DEMO (LAB 3)
+         ======================================================================== -->
+    <section class="card" id="behavioral-patterns">
+      <h2>🎯 Behavioral Design Patterns</h2>
+      <p class="section-description">
+        Demonstration of behavioral patterns that manage communication between objects.
+        Open the browser console (F12) to see detailed output.
+      </p>
+
+      <div class="patterns-demo">
+        <!-- Observer Pattern Demo -->
+        <div class="pattern-card">
+          <div class="pattern-icon">📢</div>
+          <h3>Observer Pattern</h3>
+          <p class="pattern-description">
+            Watch how order status changes automatically notify multiple observers:
+            customer service, inventory management, and delivery tracking.
+          </p>
+          <button id="demoObserver" class="btn btn-primary">
+            <span>🎬</span> Run Observer Demo
+          </button>
+          <div class="pattern-info">
+            <strong>Demonstrates:</strong> One-to-many communication, event notification system
+          </div>
+        </div>
+
+        <!-- Strategy Pattern Demo -->
+        <div class="pattern-card">
+          <div class="pattern-icon">🚚</div>
+          <h3>Strategy Pattern</h3>
+          <p class="pattern-description">
+            Compare different delivery strategies (Standard, Express, Same-Day, Pickup)
+            and see how the system switches between algorithms at runtime.
+          </p>
+          <button id="demoStrategy" class="btn btn-primary">
+            <span>🎬</span> Run Strategy Demo
+          </button>
+          <div class="pattern-info">
+            <strong>Demonstrates:</strong> Algorithm selection, runtime flexibility
+          </div>
+        </div>
+
+        <!-- Combined Demo -->
+        <div class="pattern-card pattern-card-highlight">
+          <div class="pattern-icon">🎭</div>
+          <h3>Combined Patterns</h3>
+          <p class="pattern-description">
+            See both patterns working together in a realistic order processing scenario.
+            Strategy selects delivery, Observer notifies all parties.
+          </p>
+          <button id="demoBoth" class="btn btn-secondary">
+            <span>🎬</span> Run Combined Demo
+          </button>
+          <div class="pattern-info">
+            <strong>Demonstrates:</strong> Pattern integration, real-world usage
+          </div>
+        </div>
+      </div>
+
+      <!-- Pattern Benefits -->
+      <div class="pattern-benefits">
+        <h3>✨ Benefits of Behavioral Patterns</h3>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <strong>🔄 Loose Coupling</strong>
+            <p>Objects communicate without knowing each other's details</p>
+          </div>
+          <div class="benefit-item">
+            <strong>📦 Encapsulation</strong>
+            <p>Algorithms are encapsulated in strategy objects</p>
+          </div>
+          <div class="benefit-item">
+            <strong>🔌 Extensibility</strong>
+            <p>Easy to add new observers or strategies</p>
+          </div>
+          <div class="benefit-item">
+            <strong>♻️ Reusability</strong>
+            <p>Patterns can be reused across different contexts</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <p>
+          <strong>🎓 Technical University of Moldova</strong><br/>
+          Software Engineering Laboratory • Creational & Structural Design Patterns
+        </p>
+        <div class="footer-patterns">
+          <span class="footer-badge">Builder</span>
+          <span class="footer-badge">Prototype</span>
+          <span class="footer-badge">Factory</span>
+          <span class="footer-badge">Singleton</span>
+          <span class="footer-badge">Decorator</span>
+          <span class="footer-badge">Facade</span>
+          <span class="footer-badge">Adapter</span>
+          <span class="footer-badge">Observer</span>
+          <span class="footer-badge">Strategy</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="./js/client/main.js"></script>
+  </body>
+</html>

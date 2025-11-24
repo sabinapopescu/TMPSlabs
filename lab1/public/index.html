@@ -8,123 +8,296 @@
   </head>
   <body>
     <header class="hero">
-      <h1>Bloomify</h1>
-      <p>Every bouquet tells a story.</p>
-      <div id="configBadge" class="badge"></div>
+      <div class="hero-content">
+        <h1>🌸 Bloomify</h1>
+        <p class="hero-subtitle">Every bouquet tells a story.</p>
+        <div id="configBadge" class="badge"></div>
+      </div>
     </header>
 
     <main class="container">
+      <!-- Builder Pattern Section -->
       <section id="builder" class="card">
-        <h2>Bouquet Builder (Builder)</h2>
+        <div class="card-header">
+          <h2>🏗️ Bouquet Builder</h2>
+          <span class="pattern-label">Builder Pattern</span>
+        </div>
+        
         <form id="builderForm" class="grid">
-          <div>
-            <label>Name</label>
-            <input id="name" type="text" value="Custom Bouquet" />
+          <div class="form-group full">
+            <label for="name">Bouquet Name*</label>
+            <input 
+              id="name" 
+              type="text" 
+              placeholder="e.g., Romantic Evening"
+              required
+              minlength="3"
+              maxlength="50"
+            />
+            <span class="error-message" id="nameError"></span>
           </div>
 
-          <div>
-            <label>Flower</label>
-            <select id="flowerKind">
-              <option>Rose</option><option>Tulip</option>
-              <option>Lily</option><option>Orchid</option>
+          <div class="form-group">
+            <label for="flowerKind">Flower Type*</label>
+            <select id="flowerKind" required>
+              <option value="">Select flower</option>
+              <option value="Rose">🌹 Rose</option>
+              <option value="Tulip">🌷 Tulip</option>
+              <option value="Lily">🌺 Lily</option>
+              <option value="Orchid">🌸 Orchid</option>
+              <option value="Sunflower">🌻 Sunflower</option>
+              <option value="Daisy">🌼 Daisy</option>
+            </select>
+            <span class="error-message" id="flowerKindError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerColor">Color*</label>
+            <select id="flowerColor" required>
+              <option value="">Select color</option>
+              <option value="Red">❤️ Red</option>
+              <option value="Pink">💗 Pink</option>
+              <option value="White">🤍 White</option>
+              <option value="Yellow">💛 Yellow</option>
+              <option value="Purple">💜 Purple</option>
+              <option value="Orange">🧡 Orange</option>
+            </select>
+            <span class="error-message" id="flowerColorError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerQty">Quantity*</label>
+            <input 
+              id="flowerQty" 
+              type="number" 
+              min="1" 
+              max="100" 
+              placeholder="1-100"
+              required
+            />
+            <span class="error-message" id="flowerQtyError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="flowerPrice">Unit Price (€)*</label>
+            <input 
+              id="flowerPrice" 
+              type="number" 
+              step="0.1" 
+              min="0.1"
+              max="50"
+              placeholder="0.10 - 50.00"
+              required
+            />
+            <span class="error-message" id="flowerPriceError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="wrapKind">Wrapping Style*</label>
+            <select id="wrapKind" required>
+              <option value="paper">📄 Paper</option>
+              <option value="satin">✨ Satin</option>
+              <option value="transparent">💎 Transparent</option>
             </select>
           </div>
 
-          <div>
-            <label>Color</label>
-            <select id="flowerColor">
-              <option>Red</option><option>Pink</option>
-              <option>White</option><option>Yellow</option>
+          <div class="form-group">
+            <label for="wrapColor">Wrap Color*</label>
+            <input 
+              id="wrapColor" 
+              type="text" 
+              placeholder="e.g., Pink"
+              required
+              maxlength="20"
+            />
+            <span class="error-message" id="wrapColorError"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="ribbonMat">Ribbon Material*</label>
+            <select id="ribbonMat" required>
+              <option value="silk">🎀 Silk</option>
+              <option value="satin">✨ Satin</option>
             </select>
           </div>
 
-          <div>
-            <label>Qty</label>
-            <input id="flowerQty" type="number" min="1" value="7" />
+          <div class="form-group">
+            <label for="ribbonColor">Ribbon Color*</label>
+            <input 
+              id="ribbonColor" 
+              type="text" 
+              placeholder="e.g., Red"
+              required
+              maxlength="20"
+            />
+            <span class="error-message" id="ribbonColorError"></span>
           </div>
 
-          <div>
-            <label>Unit Price</label>
-            <input id="flowerPrice" type="number" step="0.1" value="2.5" />
+          <div class="form-group full">
+            <label for="cardMessage">Card Message</label>
+            <input 
+              id="cardMessage" 
+              type="text" 
+              placeholder="Your heartfelt message..."
+              maxlength="100"
+            />
+            <span class="hint">Optional - Max 100 characters</span>
           </div>
 
-          <div>
-            <label>Wrapping</label>
-            <select id="wrapKind">
-              <option value="paper">Paper</option>
-              <option value="satin">Satin</option>
-              <option value="transparent">Transparent</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Wrap Color</label>
-            <input id="wrapColor" type="text" value="Pink" />
-          </div>
-
-          <div>
-            <label>Ribbon</label>
-            <select id="ribbonMat">
-              <option value="silk">Silk</option>
-              <option value="satin">Satin</option>
-            </select>
-          </div>
-
-          <div>
-            <label>Ribbon Color</label>
-            <input id="ribbonColor" type="text" value="Red" />
-          </div>
-
-          <div class="full">
-            <label>Card message</label>
-            <input id="cardMessage" type="text" value="With love ❤️" />
-          </div>
-
-          <div class="full">
-            <button id="addFlower" type="button">Add Flower Line</button>
-            <button id="buildBtn" type="button" class="primary">Build Bouquet</button>
+          <div class="full button-group">
+            <button id="addFlower" type="button" class="secondary">
+              ➕ Add Flower Line
+            </button>
+            <button id="clearFlowers" type="button" class="ghost">
+              🗑️ Clear All
+            </button>
+            <button id="buildBtn" type="button" class="primary">
+              🎨 Build Bouquet
+            </button>
           </div>
         </form>
 
-        <div id="itemsList" class="mini"></div>
+        <div id="itemsList" class="items-list"></div>
         <div id="preview" class="preview"></div>
       </section>
 
+      <!-- Prototype Pattern Section -->
       <section id="templates" class="card">
-        <h2>Templates (Prototype)</h2>
-        <div class="row">
-          <button class="ghost" data-template="valentine">Valentine Special</button>
-          <button class="ghost" data-template="spring">Spring Dream</button>
-          <button class="ghost" data-template="pastel">Pastel Joy</button>
+        <div class="card-header">
+          <h2>📋 Quick Templates</h2>
+          <span class="pattern-label">Prototype Pattern</span>
+        </div>
+        <p class="section-description">Clone pre-designed bouquets instantly</p>
+        
+        <div class="template-grid">
+          <button class="template-card" data-template="valentine">
+            <span class="template-icon">💝</span>
+            <span class="template-name">Valentine Special</span>
+            <span class="template-desc">15 Red Roses with Satin wrap</span>
+          </button>
+          
+          <button class="template-card" data-template="spring">
+            <span class="template-icon">🌿</span>
+            <span class="template-name">Spring Dream</span>
+            <span class="template-desc">Tulips & Lilies mix</span>
+          </button>
+          
+          <button class="template-card" data-template="pastel">
+            <span class="template-icon">🌸</span>
+            <span class="template-name">Pastel Joy</span>
+            <span class="template-desc">6 Pink Orchids</span>
+          </button>
         </div>
       </section>
 
+      <!-- Factory Method Pattern Section -->
       <section id="checkout" class="card">
-        <h2>Checkout (Factory Method)</h2>
-        <div class="row">
-          <label><input type="radio" name="pay" value="card" checked /> Card</label>
-          <label><input type="radio" name="pay" value="crypto" /> Crypto</label>
-          <label><input type="radio" name="pay" value="bank" /> Bank</label>
+        <div class="card-header">
+          <h2>💳 Checkout</h2>
+          <span class="pattern-label">Factory Method Pattern</span>
+        </div>
+        
+        <div class="payment-methods">
+          <label class="payment-option">
+            <input type="radio" name="pay" value="card" checked />
+            <span class="payment-label">
+              <span class="payment-icon">💳</span>
+              <span>Credit/Debit Card</span>
+            </span>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="crypto" />
+            <span class="payment-label">
+              <span class="payment-icon">₿</span>
+              <span>Cryptocurrency</span>
+            </span>
+          </label>
+          
+          <label class="payment-option">
+            <input type="radio" name="pay" value="bank" />
+            <span class="payment-label">
+              <span class="payment-icon">🏦</span>
+              <span>Bank Transfer</span>
+            </span>
+          </label>
         </div>
 
-        <div id="payDetails" class="mini"></div>
-        <button id="payBtn" class="primary">Pay</button>
-        <div id="receipt" class="mini"></div>
+        <div id="payDetails" class="payment-details"></div>
+        
+        <button id="payBtn" class="primary full-width">
+          💰 Process Payment
+        </button>
+        
+        <div id="receipt" class="receipt"></div>
       </section>
 
+      <!-- Singleton Pattern Section -->
       <section id="settings" class="card">
-        <h2>Config (Singleton)</h2>
-        <div class="row">
-          <button data-currency="EUR" class="ghost">EUR</button>
-          <button data-currency="USD" class="ghost">USD</button>
+        <div class="card-header">
+          <h2>⚙️ Global Settings</h2>
+          <span class="pattern-label">Singleton Pattern</span>
+        </div>
+        <p class="section-description">Configure global preferences (shared across all instances)</p>
+        
+        <div class="settings-grid">
+          <div class="setting-group">
+            <label class="setting-label">Currency</label>
+            <div class="button-group">
+              <button data-currency="EUR" class="setting-btn active">
+                💶 EUR
+              </button>
+              <button data-currency="USD" class="setting-btn">
+                💵 USD
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Language</label>
+            <div class="button-group">
+              <button data-locale="en" class="setting-btn active">
+                🇬🇧 English
+              </button>
+              <button data-locale="ro" class="setting-btn">
+                🇷🇴 Română
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <label class="setting-label">Delivery Method</label>
+            <div class="button-group">
+              <button data-delivery="courier" class="setting-btn active">
+                🚚 Courier
+              </button>
+              <button data-delivery="pickup" class="setting-btn">
+                🏪 Pickup
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="foot">
-      Technical University • Software Engineering Laboratory • Creational Design Patterns • Pure TypeScript
+    <footer class="footer">
+      <div class="footer-content">
+        <p>
+          <strong>🎓 Technical University of Moldova</strong><br/>
+          Software Engineering Laboratory • Creational Design Patterns
+        </p>
+        <div class="footer-patterns">
+          <span class="footer-badge">Builder</span>
+          <span class="footer-badge">Prototype</span>
+          <span class="footer-badge">Factory</span>
+          <span class="footer-badge">Singleton</span>
+        </div>
+      </div>
     </footer>
 
-    <script type="module" src="./js/client/main.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="/js/client/main.js"></script>
   </body>
 </html>

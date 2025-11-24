@@ -1,17 +1,41 @@
 {
-    "name": "creational-lab-bloomify",
-    "version": "1.0.0",
-    "type": "module",
-    "private": true,
-    "scripts": {
-        "build": "tsc -p .",
-        "dev": "tsc -w",
-        "preview": "http-server public -p 8080 -c-1 --cors",
-        "preview:open": "http-server public -p 8080 -c-1 --cors & sleep 1 && open http://localhost:8080"
-    },
-    "devDependencies": {
-        "http-server": "^14.1.1",
-        "ts-node": "^10.9.2",
-        "typescript": "^5.6.3"
-    }
+  "name": "bloomify-creational-patterns",
+  "version": "1.0.0",
+  "description": "Interactive demonstration of creational design patterns using a flower bouquet builder",
+  "main": "public/js/client/main.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf public/js",
+    "start": "npm run build && npx http-server public -p 3000 -o",
+    "dev": "concurrently \"npm run build:watch\" \"npx http-server public -p 3000\"",
+    "test": "echo \"No tests configured yet\" && exit 0"
+  },
+  "keywords": [
+    "typescript",
+    "design-patterns",
+    "creational-patterns",
+    "builder",
+    "prototype",
+    "singleton",
+    "factory",
+    "object-pool",
+    "software-engineering",
+    "educational"
+  ],
+  "author": "Technical University of Moldova",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "http-server": "^14.1.1",
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/bloomify-patterns.git"
+  }
 }

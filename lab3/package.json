@@ -1,0 +1,41 @@
+{
+  "name": "bloomify-creational-patterns",
+  "version": "1.0.0",
+  "description": "Interactive demonstration of creational design patterns using a flower bouquet builder",
+  "main": "public/js/client/main.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf public/js",
+    "start": "npm run build && npx http-server public -p 3000 -o",
+    "dev": "concurrently \"npm run build:watch\" \"npx http-server public -p 3000\"",
+    "test": "echo \"No tests configured yet\" && exit 0"
+  },
+  "keywords": [
+    "typescript",
+    "design-patterns",
+    "creational-patterns",
+    "builder",
+    "prototype",
+    "singleton",
+    "factory",
+    "object-pool",
+    "software-engineering",
+    "educational"
+  ],
+  "author": "Technical University of Moldova",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "http-server": "^14.1.1",
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/bloomify-patterns.git"
+  }
+}
