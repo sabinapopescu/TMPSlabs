@@ -290,3 +290,677 @@ Modified:
 Conclusions:  
 This lab extended Bloomify into a robust, flexible architecture following best practices of structural design patterns.
 
+# 🌸 Bloomify Design Patterns - UML Diagrams
+
+**Course:** TMPS | **Student:** Sabina | **Date:** November 26, 2025
+
+These diagrams illustrate the structure of each design pattern in your Bloomify project.
+
+---
+
+## 🔷 1. Builder Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────┐
+│     BouquetBuilder          │
+├─────────────────────────────┤
+│ - name: string              │
+│ - flowers: FlowerLine[]     │
+│ - wrapping: Wrapping?       │
+│ - ribbon: Ribbon?           │
+│ - cardMessage: string       │
+├─────────────────────────────┤
+│ + setName(name): this       │
+│ + addFlower(...): this      │
+│ + addWrapping(...): this    │
+│ + addRibbon(...): this      │
+│ + addCard(msg): this        │
+│ + build(): Bouquet          │
+│ + reset(): void             │
+└─────────────────────────────┘
+           │
+           │ builds
+           ↓
+┌─────────────────────────────┐
+│        Bouquet              │
+├─────────────────────────────┤
+│ + name: string              │
+│ + flowers: FlowerLine[]     │
+│ + wrapping: Wrapping        │
+│ + ribbon: Ribbon            │
+│ + cardMessage: string       │
+│ + price: number             │
+├─────────────────────────────┤
+│ + calculatePrice(): number  │
+│ + clone(): Bouquet          │
+└─────────────────────────────┘
+```
+
+### Sequence Diagram
+
+```
+Client          Builder                 Bouquet
+  |                |                       |
+  |─setName()─────>|                       |
+  |                |                       |
+  |─addFlower()───>|                       |
+  |                |                       |
+  |─addFlower()───>|                       |
+  |                |                       |
+  |─addWrapping()─>|                       |
+  |                |                       |
+  |─addRibbon()───>|                       |
+  |                |                       |
+  |─build()───────>|                       |
+  |                |─new Bouquet()────────>|
+  |                |                       |
+  |                |<──────────────────────|
+  |<───────────────|                       |
+  |                |                       |
+```
+
+---
+
+## 🔷 2. Prototype Pattern
+
+### Class Diagram
+
+```
+┌──────────────────────────────┐
+│   <<interface>>              │
+│      IPrototype              │
+├──────────────────────────────┤
+│ + clone(name?): Bouquet      │
+└──────────────────────────────┘
+            △
+            │ implements
+            │
+┌──────────────────────────────┐
+│     BouquetTemplate          │
+├──────────────────────────────┤
+│ - bouquet: Bouquet           │
+├──────────────────────────────┤
+│ + clone(name?): Bouquet      │
+│ + static presets(): Object   │
+└──────────────────────────────┘
+            │
+            │ has
+            ↓
+┌──────────────────────────────┐
+│        Bouquet               │
+├──────────────────────────────┤
+│ + name: string               │
+│ + flowers: FlowerLine[]      │
+│ + wrapping: Wrapping         │
+│ + ribbon: Ribbon             │
+└──────────────────────────────┘
+```
+
+### Usage Diagram
+
+```
+┌──────────────────────────┐
+│  BouquetTemplate         │
+│  .presets()              │
+└──────────────────────────┘
+            │
+            │ returns
+            ↓
+┌──────────────────────────┐
+│  {                       │
+│    valentine: Template   │──┐
+│    spring: Template      │  │
+│    pastel: Template      │  │
+│  }                       │  │
+└──────────────────────────┘  │
+                              │
+            ┌─────────────────┘
+            │
+            ↓
+┌──────────────────────────┐
+│  template.clone()        │
+└──────────────────────────┘
+            │
+            │ returns
+            ↓
+┌──────────────────────────┐
+│  New Bouquet Instance    │
+│  (deep copy)             │
+└──────────────────────────┘
+```
+
+---
+
+## 🔷 3. Singleton Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────────┐
+│          Config                 │
+├─────────────────────────────────┤
+│ - static instance: Config       │
+│ - currency: Currency            │
+│ - locale: Locale                │
+│ - deliveryMethod: Delivery      │
+├─────────────────────────────────┤
+│ - constructor()  [private]      │
+│ + static getInstance(): Config  │
+│ + setCurrency(curr): void       │
+│ + setLocale(locale): void       │
+│ + formatPrice(price): string    │
+│ + convertCurrency(amt): number  │
+└─────────────────────────────────┘
+```
+
+### Singleton Instance Creation
+
+```
+First Call:
+┌────────────┐
+│  Client A  │─────getInstance()────┐
+└────────────┘                      │
+                                    ↓
+                        ┌────────────────────────┐
+                        │  No instance exists    │
+                        │  Create new Config()   │
+                        │  Store in static var   │
+                        └────────────────────────┘
+                                    │
+                                    ↓
+                        ┌────────────────────────┐
+                        │   Return instance      │
+                        └────────────────────────┘
+
+Second Call:
+┌────────────┐
+│  Client B  │─────getInstance()────┐
+└────────────┘                      │
+                                    ↓
+                        ┌────────────────────────┐
+                        │  Instance exists       │
+                        │  Return same instance  │
+                        └────────────────────────┘
+                                    │
+                                    ↓
+                        Same instance as Client A
+```
+
+---
+
+## 🔷 4. Factory Method Pattern
+
+### Class Diagram
+
+```
+┌──────────────────────────────────┐
+│   <<interface>>                  │
+│      IPayment                    │
+├──────────────────────────────────┤
+│ + pay(amount): PaymentResult     │
+│ + getDetails(): string           │
+└──────────────────────────────────┘
+            △
+            │ implements
+     ┌──────┼──────┐
+     │      │      │
+┌────────┐ │ ┌──────────┐
+│ Card   │ │ │  Crypto  │
+│Payment │ │ │ Payment  │
+└────────┘ │ └──────────┘
+           │
+      ┌────────────┐
+      │   Bank     │
+      │  Transfer  │
+      └────────────┘
+
+┌──────────────────────────────────┐
+│  <<abstract>>                    │
+│     PaymentCreator               │
+├──────────────────────────────────┤
+│ + abstract create(): IPayment    │
+│ + checkout(amt, opts): string    │
+└──────────────────────────────────┘
+            △
+            │ extends
+            │
+┌──────────────────────────────────┐
+│  SimplePaymentCreator            │
+├──────────────────────────────────┤
+│ + create(opts): IPayment         │
+│ + checkout(amt, opts): string    │
+└──────────────────────────────────┘
+```
+
+### Factory Flow
+
+```
+Client
+  │
+  │ create({ type: "card", ... })
+  ↓
+SimplePaymentCreator
+  │
+  │ switch(type)
+  ├──→ "card"   → new CardPayment()
+  ├──→ "crypto" → new CryptoPayment()
+  └──→ "bank"   → new BankTransferPayment()
+  │
+  ↓
+IPayment object returned
+  │
+  │ pay(amount)
+  ↓
+Process payment
+```
+
+---
+
+## 🔷 5. Object Pool Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────────┐
+│     DatabaseConnection          │
+├─────────────────────────────────┤
+│ - id: number                    │
+│ - inUse: boolean                │
+├─────────────────────────────────┤
+│ + exec(query): void             │
+│ + isInUse(): boolean            │
+│ + setInUse(bool): void          │
+└─────────────────────────────────┘
+            △
+            │ manages
+            │
+┌─────────────────────────────────┐
+│      ConnectionPool             │
+├─────────────────────────────────┤
+│ - pool: DatabaseConnection[]    │
+│ - maxSize: number               │
+│ - currentId: number             │
+├─────────────────────────────────┤
+│ + acquire(): DatabaseConnection │
+│ + release(conn): void           │
+│ + getStats(): PoolStats         │
+└─────────────────────────────────┘
+```
+
+### Pool Lifecycle
+
+```
+┌────────────────────────────────────────┐
+│          Pool Initialization           │
+│  [Conn1] [Conn2] [Conn3] [Conn4]       │
+│   Free    Free    Free    Free         │
+└────────────────────────────────────────┘
+                  │
+                  │ acquire()
+                  ↓
+┌────────────────────────────────────────┐
+│  [Conn1] [Conn2] [Conn3] [Conn4]       │
+│   InUse   Free    Free    Free         │
+└────────────────────────────────────────┘
+                  │
+                  │ acquire() × 3
+                  ↓
+┌────────────────────────────────────────┐
+│  [Conn1] [Conn2] [Conn3] [Conn4]       │
+│   InUse   InUse   InUse   InUse        │
+│              POOL FULL                 │
+└────────────────────────────────────────┘
+                  │
+                  │ release(Conn1)
+                  ↓
+┌────────────────────────────────────────┐
+│  [Conn1] [Conn2] [Conn3] [Conn4]       │
+│   Free    InUse   InUse   InUse        │
+└────────────────────────────────────────┘
+```
+
+---
+
+## 🔶 6. Adapter Pattern
+
+### Class Diagram
+
+```
+┌────────────────────────────────┐
+│    <<interface>>               │
+│      INotification             │
+├────────────────────────────────┤
+│ + send(msg): Result            │
+│ + validate(recipient): bool    │
+│ + getServiceName(): string     │
+└────────────────────────────────┘
+            △
+            │ implements
+     ┌──────┼──────┬──────┐
+     │      │      │      │
+┌─────────────────────────────┐
+│ EmailNotificationAdapter    │──────────┐
+├─────────────────────────────┤          │
+│ - service: EmailService     │          │ adapts
+├─────────────────────────────┤          │
+│ + send(msg): Result         │          ↓
+│ + validate(email): bool     │   ┌──────────────┐
+└─────────────────────────────┘   │ EmailService │
+                                  │ (3rd party)  │
+┌─────────────────────────────┐   └──────────────┘
+│ SMSNotificationAdapter      │──────────┐
+├─────────────────────────────┤          │
+│ - gateway: SMSGateway       │          │ adapts
+├─────────────────────────────┤          │
+│ + send(msg): Result         │          ↓
+│ + validate(phone): bool     │   ┌──────────────┐
+└─────────────────────────────┘   │  SMSGateway  │
+                                  │ (3rd party)  │
+┌─────────────────────────────┐   └──────────────┘
+│ PushNotificationAdapter     │──────────┐
+├─────────────────────────────┤          │
+│ - api: PushNotificationAPI  │          │ adapts
+├─────────────────────────────┤          │
+│ + send(msg): Result         │          ↓
+│ + validate(device): bool    │   ┌──────────────────┐
+└─────────────────────────────┘   │PushNotification  │
+                                  │      API         │
+                                  │  (3rd party)     │
+                                  └──────────────────┘
+```
+
+### Adapter Flow
+
+```
+Client (NotificationManager)
+  │
+  │ send(notification)
+  ↓
+INotification Interface
+  │
+  ├─→ EmailAdapter ──→ EmailService.sendEmail()
+  │                         │
+  │                         └→ SMTP Server
+  │
+  ├─→ SMSAdapter ────→ SMSGateway.sendSMS()
+  │                         │
+  │                         └→ SMS Provider
+  │
+  └─→ PushAdapter ───→ PushAPI.sendPush()
+                            │
+                            └→ Push Service (FCM/APNS)
+```
+
+---
+
+## 🔶 7. Decorator Pattern
+
+### Class Diagram
+
+```
+┌───────────────────────────────┐
+│    <<interface>>              │
+│    IBouquetComponent          │
+├───────────────────────────────┤
+│ + getDescription(): string    │
+│ + getCost(): number           │
+│ + getDetails(): string[]      │
+└───────────────────────────────┘
+         △
+         │ implements
+    ┌────┴────┐
+    │         │
+┌──────────────────┐  ┌──────────────────────────┐
+│ BouquetComponent │  │ <<abstract>>             │
+│  (Base)          │  │   BouquetDecorator       │
+├──────────────────┤  ├──────────────────────────┤
+│ - bouquet        │  │ # component: IBouquet... │
+├──────────────────┤  ├──────────────────────────┤
+│ + getDesc()      │  │ + getDescription()       │
+│ + getCost()      │  │ + getCost()              │
+│ + getDetails()   │  │ + getDetails()           │
+└──────────────────┘  └──────────────────────────┘
+                               △
+                               │ extends
+            ┌──────────────────┼──────────────────┐
+            │                  │                  │
+    ┌───────────────┐  ┌───────────────┐  ┌────────────────┐
+    │  GiftBox      │  │  PremiumVase  │  │ CareInstructions│
+    │  Decorator    │  │  Decorator    │  │   Decorator     │
+    └───────────────┘  └───────────────┘  └────────────────┘
+```
+
+### Decorator Stacking
+
+```
+Base Bouquet (€50)
+  │
+  │ wrap with GiftBoxDecorator
+  ↓
+GiftBoxDecorator(Base) (€50 + €15 = €65)
+  │
+  │ wrap with PremiumVaseDecorator
+  ↓
+PremiumVaseDecorator(GiftBox(Base)) (€65 + €25 = €90)
+  │
+  │ wrap with ExpressDeliveryDecorator
+  ↓
+ExpressDelivery(Vase(GiftBox(Base))) (€90 + €35 = €125)
+
+Final: All decorations stacked
+getCost() → €125
+getDescription() → "Rose Bouquet in luxury gift box 
+                    with crystal vase, express delivery"
+```
+
+### Decorator Call Chain
+
+```
+component.getCost()
+  │
+  └─→ ExpressDeliveryDecorator.getCost()
+        │
+        └─→ super.getCost() + deliveryCost
+              │
+              └─→ PremiumVaseDecorator.getCost()
+                    │
+                    └─→ super.getCost() + vaseCost
+                          │
+                          └─→ GiftBoxDecorator.getCost()
+                                │
+                                └─→ super.getCost() + boxCost
+                                      │
+                                      └─→ BouquetComponent.getCost()
+                                            │
+                                            └─→ bouquet.price
+
+Result: 50 + 15 + 25 + 35 = 125
+```
+
+---
+
+## 🔶 8. Facade Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────────────┐
+│     BloomifyOrderFacade             │
+│         (Facade)                    │
+├─────────────────────────────────────┤
+│ - builder: BouquetBuilder           │
+│ - paymentFactory: PaymentCreator    │
+│ - config: Config                    │
+├─────────────────────────────────────┤
+│ + placeOrder(opts): OrderResult     │
+│ + quickOrder(...)                   │
+│ + premiumOrder(...)                 │
+│ - buildBouquet(opts): Bouquet       │
+│ - applyEnhancements(...): Component │
+│ - processPayment(...): string       │
+└─────────────────────────────────────┘
+         │ uses (hides complexity)
+         │
+    ┌────┴───────────────┬────────────────────┐
+    ↓                    ↓                    ↓
+┌──────────────┐  ┌────────────────┐  ┌──────────────┐
+│BouquetBuilder│  │   Decorators   │  │PaymentFactory│
+│  (Complex)   │  │   (Complex)    │  │  (Complex)   │
+└──────────────┘  └────────────────┘  └──────────────┘
+```
+
+### Facade Simplification
+
+```
+WITHOUT FACADE (Client must know everything):
+───────────────────────────────────────────────
+
+Client
+  │
+  ├─→ Create BouquetBuilder
+  │     ├─→ setName()
+  │     ├─→ addFlower() × N
+  │     ├─→ addWrapping()
+  │     └─→ build()
+  │
+  ├─→ Create Decorators
+  │     ├─→ new GiftBoxDecorator()
+  │     ├─→ new VaseDecorator()
+  │     └─→ new DeliveryDecorator()
+  │
+  ├─→ Create PaymentFactory
+  │     ├─→ create payment
+  │     └─→ process payment
+  │
+  └─→ Get Config singleton
+        └─→ format price
+
+≈ 30-40 lines of code!
+
+
+WITH FACADE (Client needs one method):
+───────────────────────────────────────
+
+Client
+  │
+  └─→ facade.placeOrder({
+        bouquetName: "...",
+        flowers: [...],
+        giftBox: "luxury",
+        vase: "crystal",
+        paymentType: "card"
+      })
+
+≈ 5-10 lines of code!
+```
+
+---
+
+## 🎯 Pattern Interaction Diagram
+
+### Complete System Flow
+
+```
+                    CLIENT REQUEST
+                          │
+                          ↓
+              ┌───────────────────────┐
+              │   FACADE PATTERN      │
+              │  (Simplification)     │
+              └───────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+        ↓                 ↓                 ↓
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│   BUILDER    │  │  DECORATOR   │  │   FACTORY    │
+│   PATTERN    │  │   PATTERN    │  │   PATTERN    │
+│              │  │              │  │              │
+│ Creates base │  │ Enhances     │  │ Processes    │
+│ bouquet      │  │ bouquet      │  │ payment      │
+└──────────────┘  └──────────────┘  └──────────────┘
+        │                 │                 │
+        └─────────────────┼─────────────────┘
+                          │
+                          ↓
+              ┌───────────────────────┐
+              │  SINGLETON PATTERN    │
+              │  (Configuration)      │
+              └───────────────────────┘
+                          │
+                          ↓
+              ┌───────────────────────┐
+              │   ADAPTER PATTERN     │
+              │   (Notifications)     │
+              └───────────────────────┘
+                          │
+                          ↓
+                    FINAL RESULT
+```
+
+---
+
+## 📊 Pattern Relationships
+
+### Composition Hierarchy
+
+```
+                    Application
+                         │
+                         │ uses
+                         ↓
+                    ┌─────────┐
+                    │ Facade  │
+                    └─────────┘
+                         │
+            ┌────────────┼────────────┐
+            │            │            │
+            ↓            ↓            ↓
+      ┌─────────┐  ┌─────────┐  ┌─────────┐
+      │Builder  │  │Decorator│  │Factory  │
+      └─────────┘  └─────────┘  └─────────┘
+            │            │            │
+            └────────────┼────────────┘
+                         │
+                         ↓
+                   ┌───────────┐
+                   │ Singleton │
+                   └───────────┘
+```
+
+---
+
+## 🎓 Study Guide
+
+### How to Use These Diagrams
+
+1. **Understand Structure First**
+   - Identify classes and interfaces
+   - Note relationships (inheritance, composition)
+   - See the pattern skeleton
+
+2. **Follow the Flow**
+   - Trace method calls through diagrams
+   - Understand object creation
+   - See data flow
+
+3. **Compare Patterns**
+   - Look at similarities
+   - Understand differences
+   - Know when to use each
+
+4. **Practice Drawing**
+   - Recreate diagrams from memory
+   - Draw for your own projects
+   - Modify for different scenarios
+
+---
+
+**Diagram Reference Version:** 1.0  
+**Created:** November 26, 2025  
+**For:** TMPS Course Study Material
+
+🌸 **Use these diagrams to visualize and understand the patterns!** 🌸
+
