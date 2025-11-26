@@ -65,8 +65,7 @@ bloomify-enhanced/
 │       │   ├── 📄 Bouquet.js
 │       │   ├── 📄 Flower.js
 │       │   └── 📄 Customer.js
-│       └── 📁 pool/
-│           └── 📄 ConnectionPool.js
+│      
 │
 └── 📁 src/                         # TypeScript source files
     │
@@ -589,39 +588,7 @@ Process payment
 └─────────────────────────────────┘
 ```
 
-### Pool Lifecycle
 
-```
-┌────────────────────────────────────────┐
-│          Pool Initialization           │
-│  [Conn1] [Conn2] [Conn3] [Conn4]       │
-│   Free    Free    Free    Free         │
-└────────────────────────────────────────┘
-                  │
-                  │ acquire()
-                  ↓
-┌────────────────────────────────────────┐
-│  [Conn1] [Conn2] [Conn3] [Conn4]       │
-│   InUse   Free    Free    Free         │
-└────────────────────────────────────────┘
-                  │
-                  │ acquire() × 3
-                  ↓
-┌────────────────────────────────────────┐
-│  [Conn1] [Conn2] [Conn3] [Conn4]       │
-│   InUse   InUse   InUse   InUse        │
-│              POOL FULL                 │
-└────────────────────────────────────────┘
-                  │
-                  │ release(Conn1)
-                  ↓
-┌────────────────────────────────────────┐
-│  [Conn1] [Conn2] [Conn3] [Conn4]       │
-│   Free    InUse   InUse   InUse        │
-└────────────────────────────────────────┘
-```
-
----
 
 ## 🔶 6. Adapter Pattern
 
