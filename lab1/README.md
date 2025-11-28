@@ -127,7 +127,7 @@ README.md
 - Config (Singleton) loads/saves from localStorage and ensures global consistency.
 - Factory Method enables addition of new flower types without modifying UI code.
 - UI generates bouquets dynamically and validates user input.
-## 🔷 1. Builder Pattern
+##  1. Builder Pattern
 
 ### Class Diagram
 
@@ -192,7 +192,7 @@ Client          Builder                 Bouquet
 
 ---
 
-## 🔷 2. Prototype Pattern
+##  2. Prototype Pattern
 
 ### Class Diagram
 
@@ -262,7 +262,7 @@ Client          Builder                 Bouquet
 
 ---
 
-## 🔷 3. Singleton Pattern
+##  3. Singleton Pattern
 
 ### Class Diagram
 
@@ -319,7 +319,7 @@ Second Call:
 
 ---
 
-## 🔷 4. Factory Method Pattern
+##  4. Factory Method Pattern
 
 ### Class Diagram
 
