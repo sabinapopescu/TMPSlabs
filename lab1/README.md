@@ -127,6 +127,266 @@ README.md
 - Config (Singleton) loads/saves from localStorage and ensures global consistency.
 - Factory Method enables addition of new flower types without modifying UI code.
 - UI generates bouquets dynamically and validates user input.
+## 🔷 1. Builder Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────┐
+│     BouquetBuilder          │
+├─────────────────────────────┤
+│ - name: string              │
+│ - flowers: FlowerLine[]     │
+│ - wrapping: Wrapping?       │
+│ - ribbon: Ribbon?           │
+│ - cardMessage: string       │
+├─────────────────────────────┤
+│ + setName(name): this       │
+│ + addFlower(...): this      │
+│ + addWrapping(...): this    │
+│ + addRibbon(...): this      │
+│ + addCard(msg): this        │
+│ + build(): Bouquet          │
+│ + reset(): void             │
+└─────────────────────────────┘
+           │
+           │ builds
+           ↓
+┌─────────────────────────────┐
+│        Bouquet              │
+├─────────────────────────────┤
+│ + name: string              │
+│ + flowers: FlowerLine[]     │
+│ + wrapping: Wrapping        │
+│ + ribbon: Ribbon            │
+│ + cardMessage: string       │
+│ + price: number             │
+├─────────────────────────────┤
+│ + calculatePrice(): number  │
+│ + clone(): Bouquet          │
+└─────────────────────────────┘
+```
+
+### Sequence Diagram
+
+```
+Client          Builder                 Bouquet
+  |                |                       |
+  |─setName()─────>|                       |
+  |                |                       |
+  |─addFlower()───>|                       |
+  |                |                       |
+  |─addFlower()───>|                       |
+  |                |                       |
+  |─addWrapping()─>|                       |
+  |                |                       |
+  |─addRibbon()───>|                       |
+  |                |                       |
+  |─build()───────>|                       |
+  |                |─new Bouquet()────────>|
+  |                |                       |
+  |                |<──────────────────────|
+  |<───────────────|                       |
+  |                |                       |
+```
+
+---
+
+## 🔷 2. Prototype Pattern
+
+### Class Diagram
+
+```
+┌──────────────────────────────┐
+│   <<interface>>              │
+│      IPrototype              │
+├──────────────────────────────┤
+│ + clone(name?): Bouquet      │
+└──────────────────────────────┘
+            △
+            │ implements
+            │
+┌──────────────────────────────┐
+│     BouquetTemplate          │
+├──────────────────────────────┤
+│ - bouquet: Bouquet           │
+├──────────────────────────────┤
+│ + clone(name?): Bouquet      │
+│ + static presets(): Object   │
+└──────────────────────────────┘
+            │
+            │ has
+            ↓
+┌──────────────────────────────┐
+│        Bouquet               │
+├──────────────────────────────┤
+│ + name: string               │
+│ + flowers: FlowerLine[]      │
+│ + wrapping: Wrapping         │
+│ + ribbon: Ribbon             │
+└──────────────────────────────┘
+```
+
+### Usage Diagram
+
+```
+┌──────────────────────────┐
+│  BouquetTemplate         │
+│  .presets()              │
+└──────────────────────────┘
+            │
+            │ returns
+            ↓
+┌──────────────────────────┐
+│  {                       │
+│    valentine: Template   │──┐
+│    spring: Template      │  │
+│    pastel: Template      │  │
+│  }                       │  │
+└──────────────────────────┘  │
+                              │
+            ┌─────────────────┘
+            │
+            ↓
+┌──────────────────────────┐
+│  template.clone()        │
+└──────────────────────────┘
+            │
+            │ returns
+            ↓
+┌──────────────────────────┐
+│  New Bouquet Instance    │
+│  (deep copy)             │
+└──────────────────────────┘
+```
+
+---
+
+## 🔷 3. Singleton Pattern
+
+### Class Diagram
+
+```
+┌─────────────────────────────────┐
+│          Config                 │
+├─────────────────────────────────┤
+│ - static instance: Config       │
+│ - currency: Currency            │
+│ - locale: Locale                │
+│ - deliveryMethod: Delivery      │
+├─────────────────────────────────┤
+│ - constructor()  [private]      │
+│ + static getInstance(): Config  │
+│ + setCurrency(curr): void       │
+│ + setLocale(locale): void       │
+│ + formatPrice(price): string    │
+│ + convertCurrency(amt): number  │
+└─────────────────────────────────┘
+```
+
+### Singleton Instance Creation
+
+```
+First Call:
+┌────────────┐
+│  Client A  │─────getInstance()────┐
+└────────────┘                      │
+                                    ↓
+                        ┌────────────────────────┐
+                        │  No instance exists    │
+                        │  Create new Config()   │
+                        │  Store in static var   │
+                        └────────────────────────┘
+                                    │
+                                    ↓
+                        ┌────────────────────────┐
+                        │   Return instance      │
+                        └────────────────────────┘
+
+Second Call:
+┌────────────┐
+│  Client B  │─────getInstance()────┐
+└────────────┘                      │
+                                    ↓
+                        ┌────────────────────────┐
+                        │  Instance exists       │
+                        │  Return same instance  │
+                        └────────────────────────┘
+                                    │
+                                    ↓
+                        Same instance as Client A
+```
+
+---
+
+## 🔷 4. Factory Method Pattern
+
+### Class Diagram
+
+```
+┌──────────────────────────────────┐
+│   <<interface>>                  │
+│      IPayment                    │
+├──────────────────────────────────┤
+│ + pay(amount): PaymentResult     │
+│ + getDetails(): string           │
+└──────────────────────────────────┘
+            △
+            │ implements
+     ┌──────┼──────┐
+     │      │      │
+┌────────┐ │ ┌──────────┐
+│ Card   │ │ │  Crypto  │
+│Payment │ │ │ Payment  │
+└────────┘ │ └──────────┘
+           │
+      ┌────────────┐
+      │   Bank     │
+      │  Transfer  │
+      └────────────┘
+
+┌──────────────────────────────────┐
+│  <<abstract>>                    │
+│     PaymentCreator               │
+├──────────────────────────────────┤
+│ + abstract create(): IPayment    │
+│ + checkout(amt, opts): string    │
+└──────────────────────────────────┘
+            △
+            │ extends
+            │
+┌──────────────────────────────────┐
+│  SimplePaymentCreator            │
+├──────────────────────────────────┤
+│ + create(opts): IPayment         │
+│ + checkout(amt, opts): string    │
+└──────────────────────────────────┘
+```
+
+### Factory Flow
+
+```
+Client
+  │
+  │ create({ type: "card", ... })
+  ↓
+SimplePaymentCreator
+  │
+  │ switch(type)
+  ├──→ "card"   → new CardPayment()
+  ├──→ "crypto" → new CryptoPayment()
+  └──→ "bank"   → new BankTransferPayment()
+  │
+  ↓
+IPayment object returned
+  │
+  │ pay(amount)
+  ↓
+Process payment
+```
+
+---
+
 
 # 8. Difficulties Encountered
 
