@@ -422,7 +422,7 @@ component.getCost()
                                             │
                                             └─→ bouquet.price
 
-Result: 50 + 15 + 25 + 35 = 125
+
 ```
 
 ---
@@ -499,7 +499,7 @@ Client
         paymentType: "card"
       })
 
-≈ 5-10 lines of code!
+
 ```
 
 ---
