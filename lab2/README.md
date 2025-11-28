@@ -132,7 +132,7 @@ bloomify-enhanced/
 
 
 
-## 🔄 Data Flow
+##  Data Flow
 
 ```
 1. User Input (HTML Forms)
@@ -152,7 +152,7 @@ bloomify-enhanced/
 8. User Feedback (Toast, Preview)
 ```
 
-## 📦 Build Process
+##  Build Process
 
 ```
 TypeScript Source Files (src/)
@@ -166,7 +166,7 @@ JavaScript Output (public/js/)
    Browser (localhost:3000)
 ```
 
-## 🎓 Pattern Interaction Example
+##  Pattern Interaction Example
 
 ```typescript
 // 1. Singleton provides configuration
