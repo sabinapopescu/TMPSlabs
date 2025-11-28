@@ -125,14 +125,8 @@ bloomify-enhanced/
     │                                • Name and email
     │                                • Email validation
     │                                • Privacy features
-    │
-    └── 📁 pool/                    # Object Pool Pattern
-        │
-        └── 📄 ConnectionPool.ts   # 🔷 Object Pool Pattern (Bonus)
-                                     • Connection reuse
-                                     • Resource management
-                                     • Statistics tracking
-                                     • Singleton wrapper
+    └──
+    
 
 ```
 
