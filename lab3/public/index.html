@@ -409,87 +409,90 @@
         </div>
       </section>
       <!-- ========================================================================
-         BEHAVIORAL PATTERNS DEMO (LAB 3)
-         ======================================================================== -->
-    <section class="card" id="behavioral-patterns">
-      <h2>🎯 Behavioral Design Patterns</h2>
-      <p class="section-description">
-        Demonstration of behavioral patterns that manage communication between objects.
-        Open the browser console (F12) to see detailed output.
-      </p>
+      BEHAVIORAL PATTERNS DEMO (LAB 3)
+      ======================================================================== -->
+  <section class="card" id="behavioral-patterns">
+    <h2>🎯 Behavioral Design Patterns</h2>
+    <p class="section-description">
+      Demonstration of behavioral patterns that manage communication and operations between objects.
+      Open the browser console (F12) to see detailed output.
+    </p>
+
+    <div class="patterns-demo">
+      <!-- Observer Pattern Demo -->
+      <div class="pattern-card">
+        <div class="pattern-icon">📢</div>
+        <h3>Observer Pattern</h3>
+        <p class="pattern-description">
+          Watch how order status changes automatically notify multiple observers:
+          customer service, inventory management, and delivery tracking.
+        </p>
+        <button id="demoObserver" class="btn btn-primary">
+          <span>🎬</span> Run Observer Demo
+        </button>
+        <div class="pattern-info">
+          <strong>Demonstrates:</strong> One-to-many communication, event notification system
+        </div>
+      </div>
+
+      <!-- Strategy Pattern Demo -->
+      <div class="pattern-card">
+        <div class="pattern-icon">🚚</div>
+        <h3>Strategy Pattern</h3>
+        <p class="pattern-description">
+          Compare different delivery strategies (Standard, Express, Same-Day, Pickup)
+          and see how the system switches between algorithms at runtime.
+        </p>
+        <button id="demoStrategy" class="btn btn-primary">
+          <span>🎬</span> Run Strategy Demo
+        </button>
+        <div class="pattern-info">
+          <strong>Demonstrates:</strong> Algorithm selection, runtime flexibility
+        </div>
+      </div>
+
+      <!-- Command Pattern Demo -->
+      <div class="pattern-card">
+        <div class="pattern-icon">⚡</div>
+        <h3>Command Pattern</h3>
+        <p class="pattern-description">
+          Execute order operations (place, cancel, modify) with full undo/redo support.
+          See command history tracking and operation reversal in action.
+        </p>
+        <button id="demoCommand" class="btn btn-primary">
+          <span>🎬</span> Run Command Demo
+        </button>
+        <div class="pattern-info">
+          <strong>Demonstrates:</strong> Operation encapsulation, undo/redo support
+        </div>
+      </div>
+
+      
+    </div>
+
+
+  </section>
 
       <div class="patterns-demo">
-        <!-- Observer Pattern Demo -->
-        <div class="pattern-card">
-          <div class="pattern-icon">📢</div>
-          <h3>Observer Pattern</h3>
-          <p class="pattern-description">
-            Watch how order status changes automatically notify multiple observers:
-            customer service, inventory management, and delivery tracking.
-          </p>
-          <button id="demoObserver" class="btn btn-primary">
-            <span>🎬</span> Run Observer Demo
-          </button>
-          <div class="pattern-info">
-            <strong>Demonstrates:</strong> One-to-many communication, event notification system
-          </div>
-        </div>
+        
+<!-- Combined Demo -->
+<div class="pattern-card pattern-card-highlight">
+  <div class="pattern-icon">🎭</div>
+  <h3>Combined Patterns</h3>
+  <p class="pattern-description">
+    See all three patterns working together in a realistic order processing scenario.
+    Strategy selects delivery, Observer notifies all parties, Command manages operations.
+  </p>
+  <button id="demoBoth" class="btn btn-secondary">
+    <span>🎬</span> Run Combined Demo
+  </button>
+  <div class="pattern-info">
+    <strong>Demonstrates:</strong> Pattern integration, real-world usage
+  </div>
+</div>
+        
 
-        <!-- Strategy Pattern Demo -->
-        <div class="pattern-card">
-          <div class="pattern-icon">🚚</div>
-          <h3>Strategy Pattern</h3>
-          <p class="pattern-description">
-            Compare different delivery strategies (Standard, Express, Same-Day, Pickup)
-            and see how the system switches between algorithms at runtime.
-          </p>
-          <button id="demoStrategy" class="btn btn-primary">
-            <span>🎬</span> Run Strategy Demo
-          </button>
-          <div class="pattern-info">
-            <strong>Demonstrates:</strong> Algorithm selection, runtime flexibility
-          </div>
-        </div>
-
-        <!-- Combined Demo -->
-        <div class="pattern-card pattern-card-highlight">
-          <div class="pattern-icon">🎭</div>
-          <h3>Combined Patterns</h3>
-          <p class="pattern-description">
-            See both patterns working together in a realistic order processing scenario.
-            Strategy selects delivery, Observer notifies all parties.
-          </p>
-          <button id="demoBoth" class="btn btn-secondary">
-            <span>🎬</span> Run Combined Demo
-          </button>
-          <div class="pattern-info">
-            <strong>Demonstrates:</strong> Pattern integration, real-world usage
-          </div>
-        </div>
-      </div>
-
-      <!-- Pattern Benefits -->
-      <div class="pattern-benefits">
-        <h3>✨ Benefits of Behavioral Patterns</h3>
-        <div class="benefits-grid">
-          <div class="benefit-item">
-            <strong>🔄 Loose Coupling</strong>
-            <p>Objects communicate without knowing each other's details</p>
-          </div>
-          <div class="benefit-item">
-            <strong>📦 Encapsulation</strong>
-            <p>Algorithms are encapsulated in strategy objects</p>
-          </div>
-          <div class="benefit-item">
-            <strong>🔌 Extensibility</strong>
-            <p>Easy to add new observers or strategies</p>
-          </div>
-          <div class="benefit-item">
-            <strong>♻️ Reusability</strong>
-            <p>Patterns can be reused across different contexts</p>
-          </div>
-        </div>
-      </div>
+       
     </section>
     </main>
 
@@ -509,6 +512,7 @@
           <span class="footer-badge">Adapter</span>
           <span class="footer-badge">Observer</span>
           <span class="footer-badge">Strategy</span>
+          <span class="footer-badge">Command</span>
         </div>
       </div>
     </footer>

@@ -35,6 +35,15 @@ import {
   PickupStrategy
 } from "../behavioral/strategy/index.js";
 
+import {
+  OrderManager,
+  OrderInvoker,
+  PlaceOrderCommand,
+  CancelOrderCommand,
+  ModifyOrderCommand,
+  StoredOrder  // Add this
+} from "../behavioral/command/index.js";
+
 // =====================================================
 // UTILITY FUNCTIONS
 // =====================================================
@@ -1207,7 +1216,139 @@ function demoBothPatterns(): void {
 
   showToast("Combined patterns demo started! Watch the console.", "info");
 }
+/**
+ * Demo function for Command Pattern
+ * Shows how commands encapsulate operations and support undo/redo
+ */
+function demoCommandPattern(): void {
+  console.log("\n" + "=".repeat(70));
+  console.log("🎯 COMMAND PATTERN DEMONSTRATION - LAB 3");
+  console.log("=".repeat(70));
+  console.log("Purpose: Demonstrate command encapsulation with undo/redo support");
+  console.log("Commands: PlaceOrder, CancelOrder, ModifyOrder\n");
 
+  // Create the receiver (OrderManager)
+  const orderManager = new OrderManager();
+
+  // Create the invoker (OrderInvoker)
+  const invoker = new OrderInvoker();
+
+  console.log("=" .repeat(70));
+  console.log("STEP 1: CREATING AND EXECUTING COMMANDS");
+  console.log("=".repeat(70) + "\n");
+
+  // Command 1: Place an order
+  if (!current) {
+    // Create a sample bouquet if none exists
+    builder.reset();
+    builder.setName("Command Demo Bouquet");
+    builder.addFlower("Rose", "Red", 3.5, 10);
+    builder.addWrapping("satin", "Pink");
+    builder.addRibbon("silk", "Red");
+    builder.addCard("Command Pattern Demo");
+    current = builder.build();
+  }
+
+  console.log("1️⃣ Placing an order...");
+  const placeCmd1 = new PlaceOrderCommand(
+    orderManager,
+    current,
+    "Alice Johnson",
+    "alice@example.com"
+  );
+  let result = invoker.executeCommand(placeCmd1);
+  console.log(`   ✓ ${result}\n`);
+
+  // Command 2: Place another order
+  console.log("2️⃣ Placing a second order...");
+  const placeCmd2 = new PlaceOrderCommand(
+    orderManager,
+    current.clone(),
+    "Bob Smith",
+    "bob@example.com"
+  );
+  result = invoker.executeCommand(placeCmd2);
+  console.log(`   ✓ ${result}\n`);
+
+  // Command 3: Modify first order status
+  const firstOrder = placeCmd1.getExecutedOrder();
+  if (firstOrder) {
+    console.log("3️⃣ Modifying first order status to 'preparing'...");
+    const modifyCmd = new ModifyOrderCommand(
+      orderManager,
+      firstOrder.orderId,
+      "preparing"
+    );
+    result = invoker.executeCommand(modifyCmd);
+    console.log(`   ✓ ${result}\n`);
+  }
+
+  // Command 4: Cancel second order
+  const secondOrder = placeCmd2.getExecutedOrder();
+  if (secondOrder) {
+    console.log("4️⃣ Cancelling second order...");
+    const cancelCmd = new CancelOrderCommand(
+      orderManager,
+      secondOrder.orderId
+    );
+    result = invoker.executeCommand(cancelCmd);
+    console.log(`   ✓ ${result}\n`);
+  }
+
+  console.log("=" .repeat(70));
+  console.log("STEP 2: COMMAND HISTORY");
+  console.log("=".repeat(70));
+  console.log(invoker.displayHistory());
+
+  console.log("=" .repeat(70));
+  console.log("STEP 3: UNDO/REDO DEMONSTRATION");
+  console.log("=".repeat(70) + "\n");
+
+  // Undo last command (cancel)
+  console.log("⏪ Undoing last command...");
+  result = invoker.undo();
+  console.log(`   ${result}\n`);
+
+  // Undo again (modify)
+  console.log("⏪ Undoing again...");
+  result = invoker.undo();
+  console.log(`   ${result}\n`);
+
+  // Show updated history
+  console.log(invoker.displayHistory());
+
+  // Redo
+  console.log("⏩ Redoing last undone command...");
+  result = invoker.redo();
+  console.log(`   ${result}\n`);
+
+  // Show final history
+  console.log(invoker.displayHistory());
+
+  console.log("=" .repeat(70));
+  console.log("STEP 4: ORDER MANAGER STATISTICS");
+  console.log("=".repeat(70) + "\n");
+
+  const allOrders = orderManager.getAllOrders();
+  console.log(`Total Orders: ${orderManager.getOrderCount()}`);
+  console.log(`Total Revenue: €${orderManager.getTotalRevenue().toFixed(2)}`);
+  console.log("\nOrder Details:");
+  allOrders.forEach((order: StoredOrder) => {
+    console.log(`  • ${order.orderId} - ${order.bouquet.name} - ${order.status} - €${order.totalPrice.toFixed(2)}`);
+  });
+
+  console.log("\n" + "=".repeat(70));
+  console.log("✅ Command Pattern Demo Complete!");
+  console.log("=".repeat(70));
+  console.log("\n💡 Key Takeaways:");
+  console.log("   • Commands encapsulate operations as objects");
+  console.log("   • Invoker manages command execution and history");
+  console.log("   • Undo/Redo support is built into the pattern");
+  console.log("   • Commands can be queued, logged, and replayed");
+  console.log("   • Decouples the requester from the performer\n");
+
+  showToast("Command Pattern demo complete! Check console for undo/redo operations.", "success");
+}
 // ========================================================================
 // BEHAVIORAL PATTERNS DEMO BUTTONS - EVENT LISTENERS (LAB 3)
 // ========================================================================
@@ -1218,35 +1359,45 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('=== BEHAVIORAL DESIGN PATTERNS (LAB 3) ===');
   console.log('✓ Observer Pattern - Order status notifications');
   console.log('✓ Strategy Pattern - Delivery method selection');
+  console.log('✓ Command Pattern - Order operations with undo/redo');
   console.log('');
   console.log('=== BEHAVIORAL DEMO COMMANDS ===');
   console.log('Click the demo buttons or run these in the console:');
   console.log('  demoObserverPattern() - Observer: Order lifecycle notifications');
   console.log('  demoStrategyPattern() - Strategy: Delivery cost comparison');
-  console.log('  demoBothPatterns()    - Combined: Both patterns working together');
+  console.log('  demoCommandPattern()  - Command: Order operations with undo/redo');
+  console.log('  demoBothPatterns()    - Combined: All patterns working together');
   console.log('');
 
   const demoObserverBtn = document.getElementById('demoObserver');
   const demoStrategyBtn = document.getElementById('demoStrategy');
+  const demoCommandBtn = document.getElementById('demoCommand');
   const demoBothBtn = document.getElementById('demoBoth');
 
   if (demoObserverBtn) {
     demoObserverBtn.addEventListener('click', () => {
-      console.clear(); // Clear console for clean output
+      console.clear();
       demoObserverPattern();
     });
   }
 
   if (demoStrategyBtn) {
     demoStrategyBtn.addEventListener('click', () => {
-      console.clear(); // Clear console for clean output
+      console.clear();
       demoStrategyPattern();
+    });
+  }
+
+  if (demoCommandBtn) {
+    demoCommandBtn.addEventListener('click', () => {
+      console.clear();
+      demoCommandPattern();
     });
   }
 
   if (demoBothBtn) {
     demoBothBtn.addEventListener('click', () => {
-      console.clear(); // Clear console for clean output
+      console.clear();
       demoBothPatterns();
     });
   }
@@ -1255,4 +1406,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Make functions globally accessible for console testing
 (window as any).demoObserverPattern = demoObserverPattern;
 (window as any).demoStrategyPattern = demoStrategyPattern;
+(window as any).demoCommandPattern = demoCommandPattern;
 (window as any).demoBothPatterns = demoBothPatterns;
